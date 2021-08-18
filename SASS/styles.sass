@@ -1,0 +1,28 @@
+.Radio 
+  display: flex
+  align-items: center
+  cursor: pointer
+  &__input
+    display: none
+  &__radio 
+    display: flex
+    justify-content: center
+    align-items: center
+    height: 30px
+    width: 30px
+    border-radius: 50%
+    background-color: #333333
+  &__fill
+    display: block
+    width: 0
+    height: 0
+    background-color: #fff
+    border-radius: 50%
+    transition: .3s
+    &--active
+      width: 20px
+      height: 20px
+  &__text
+    margin-left: 20px
+    font-size: 20px
+    font-family: sans-serif
