@@ -20,7 +20,7 @@ class Radio {
     let inputs = [];
 
     for (const item of parents) {
-      inputs.push(item.querySelector('input'));
+      inputs.push(item.querySelector('[data-id="dz-input"]'));
     }
 
     return inputs;
@@ -29,19 +29,19 @@ class Radio {
   click(el) {
     this.removeCheckeds();
 
-    this.add(el.querySelector('[data-id="radioInput"]'));
-    el.querySelector('input').checked = true;
+    this.add(el.querySelector('[data-id="dz-radioInput"]'));
+    el.querySelector('[data-id="dz-input"]').checked = true;
   }
 
   removeCheckeds() {
     for (const item of this.items) {
-      this.remove(item.querySelector('[data-id="radioInput"]'));
+      this.remove(item.querySelector('[data-id="dz-radioInput"]'));
     }
   }
 
   check(item) {
-    let status = item.querySelector('input').checked;
-    let radioInput = item.querySelector('[data-id="radioInput"]');
+    let status = item.querySelector('[data-id="dz-input"]').checked;
+    let radioInput = item.querySelector('[data-id="dz-radioInput"]');
 
     if (status)
       this.add(radioInput);
