@@ -1,0 +1,22 @@
+{
+  "name": "custom-radio",
+  "version": "1.0.0",
+  "description": "To use it, you just need to find all the elements you need, and then pass it to the class.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DZ8540/Custom-radio.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DZ8540/Custom-radio/issues"
+  },
+  "homepage": "https://github.com/DZ8540/Custom-radio#readme",
+  "devDependencies": {
+    "typescript": "^4.3.5"
+  }
+}
