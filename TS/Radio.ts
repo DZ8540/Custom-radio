@@ -83,9 +83,7 @@ class Radio implements IRadio {
     let inputFlag: boolean = false;  // Flag for not found input element
     let fillInputFlag: boolean = false;  // Flag for not found fill input element
     for (const item of this.items) {
-      let name: string = '(undefined name) Radio component';
-      if (item.id != '')
-        name = `${item.id} Radio component`;
+      let name: string = `${item.dataset.name || '(undefined name)'} radio component`;
 
       let input: HTMLInputElement | null = item.querySelector('[data-id="dz-input"]');
       if (!input) {
@@ -95,7 +93,7 @@ class Radio implements IRadio {
 
       let fillInput: HTMLDivElement | null = item.querySelector('[data-id="dz-radioInput"]');
       if (!fillInput) {
-        console.warn(`Fill input element in ${name} Radio component is not found!`);
+        console.warn(`Fill input element in ${name} is not found!`);
         fillInputFlag = true;
       }
     }
@@ -103,7 +101,7 @@ class Radio implements IRadio {
     if (inputFlag || fillInputFlag)
       return false;
 
-    console.info('All components are ready!');
+    console.info('All radio components are ready!');
     return true;
   }
 }

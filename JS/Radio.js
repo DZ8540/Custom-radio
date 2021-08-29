@@ -53,9 +53,7 @@ class Radio {
         let inputFlag = false; // Flag for not found input element
         let fillInputFlag = false; // Flag for not found fill input element
         for (const item of this.items) {
-            let name = '(undefined name) Radio component';
-            if (item.id != '')
-                name = `${item.id} Radio component`;
+            let name = `${item.dataset.name || '(undefined name)'} radio component`;
             let input = item.querySelector('[data-id="dz-input"]');
             if (!input) {
                 console.warn(`Input element in ${name} is not found!`);
@@ -63,13 +61,13 @@ class Radio {
             }
             let fillInput = item.querySelector('[data-id="dz-radioInput"]');
             if (!fillInput) {
-                console.warn(`Fill input element in ${name} Radio component is not found!`);
+                console.warn(`Fill input element in ${name} is not found!`);
                 fillInputFlag = true;
             }
         }
         if (inputFlag || fillInputFlag)
             return false;
-        console.info('All components are ready!');
+        console.info('All radio components are ready!');
         return true;
     }
 }
