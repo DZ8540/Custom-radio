@@ -7,37 +7,35 @@ class Radio {
         this.handle();
     }
     handle() {
-        if (this.checkForUser()) {
-            for (const item of this.items) {
-                this.check(item);
-                item.onclick = this.click.bind(this, item);
+        try {
+            this.checkForUser();
+            this.check();
+            for (let item of this.inputs) {
+                item.onchange = this.check.bind(this);
             }
+        }
+        catch (err) {
+            console.warn(err.message);
         }
     }
     findAll(parents) {
         let inputs = [];
-        for (const item of parents) {
+        for (let item of parents) {
             inputs.push(item.querySelector('[data-id="dz-input"]'));
         }
         return inputs;
     }
-    click(el) {
+    check() {
+        let checked = this.inputs.find(el => el.checked == true);
+        let fillInput = checked.parentElement.querySelector('[data-id="dz-radioInput"]');
         this.removeCheckeds();
-        this.add(el.querySelector('[data-id="dz-radioInput"]'));
-        el.querySelector('[data-id="dz-input"]').checked = true;
+        if (checked.disabled != true)
+            this.add(fillInput);
     }
     removeCheckeds() {
-        for (const item of this.items) {
+        for (let item of this.items) {
             this.remove(item.querySelector('[data-id="dz-radioInput"]'));
         }
-    }
-    check(item) {
-        let status = item.querySelector('[data-id="dz-input"]').checked;
-        let fillInput = item.querySelector('[data-id="dz-radioInput"]');
-        if (status)
-            this.add(fillInput);
-        else
-            this.remove(fillInput);
     }
     add(el) {
         el.classList.add(this.toggleClass);
@@ -46,28 +44,17 @@ class Radio {
         el.classList.remove(this.toggleClass);
     }
     checkForUser() {
-        if (!this.items.length) {
-            console.warn('All radio button components aren\'t founds');
-            return false;
-        }
-        let inputFlag = false; // Flag for not found input element
-        let fillInputFlag = false; // Flag for not found fill input element
-        for (const item of this.items) {
+        if (!this.items.length)
+            throw new Error('All radio button components aren\'t founds');
+        for (let item of this.items) {
             let name = `${item.dataset.name || '(undefined name)'} radio component`;
             let input = item.querySelector('[data-id="dz-input"]');
-            if (!input) {
-                console.warn(`Input element in ${name} is not found!`);
-                inputFlag = true;
-            }
+            if (!input)
+                throw new Error(`Input element in ${name} is not found!`);
             let fillInput = item.querySelector('[data-id="dz-radioInput"]');
-            if (!fillInput) {
-                console.warn(`Fill input element in ${name} is not found!`);
-                fillInputFlag = true;
-            }
+            if (!fillInput)
+                throw new Error(`Fill input element in ${name} is not found!`);
         }
-        if (inputFlag || fillInputFlag)
-            return false;
         console.info('All radio components are ready!');
-        return true;
     }
 }

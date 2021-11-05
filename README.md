@@ -6,14 +6,15 @@ To use it, you just need to find all the elements you need, and then pass it to 
 1. Text value print in last span in the component.
 2. No id attribute required for input.
 3. Input maintains checked attribute.
+3. Input maintains disabled attribute.
 4. Attention!!! Radio buttons must have the same value in the name attribute in the input tag.
-5. Component maintains data-name attribute, to you can set component name.
+5. Component maintains data-name attribute, for you can set component name.
 
 ## Example
 
 ### HTML
 ```html
-<div class="Radio" data-name="First Radio">
+<label class="Radio" data-name="First Radio">
   <input type="radio" class="Radio__input" name="radio" data-id="dz-input" />
 
   <div class="Radio__radio">
@@ -21,7 +22,7 @@ To use it, you just need to find all the elements you need, and then pass it to 
   </div>
 
   <span class="Radio__text">Radio button</span>
-</div>
+</label>
 ```
 
 ### JS

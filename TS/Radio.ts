@@ -4,16 +4,15 @@ interface IRadio<T extends HTMLDivElement = HTMLDivElement> {
   inputs: HTMLInputElement[],
   handle(): void,
   findAll(parents: this['items']): this['inputs'],
-  click(el: T): void,
   removeCheckeds(): void,
   remove(el: T): void,
   add(el: T): void,
-  check(item: T): void,
-  checkForUser(): boolean
+  check(): void,
+  checkForUser(): void,
 }
 
 class Radio implements IRadio {
-  toggleClass: string = 'Radio__fill--active';
+  readonly toggleClass: string = 'Radio__fill--active';
   items: NodeListOf<HTMLDivElement>;
   inputs: HTMLInputElement[];
 
@@ -25,45 +24,41 @@ class Radio implements IRadio {
   }
 
   handle(): void {
-    if (this.checkForUser()) {
-      for (const item of this.items) {
-        this.check(item);
-        item.onclick = this.click.bind(this, item);
+    try {
+      this.checkForUser();
+      
+      this.check();
+      for (let item of this.inputs) {
+        item.onchange = this.check.bind(this);
       }
+    } catch (err: any | Error) {
+      console.warn(err.message);
     }
   }
 
   findAll(parents: NodeListOf<HTMLDivElement>): HTMLInputElement[] {
     let inputs: HTMLInputElement[] = [];
 
-    for (const item of parents) {
+    for (let item of parents) {
       inputs.push(item.querySelector('[data-id="dz-input"]')!);
     }
 
     return inputs;
   }
 
-  click(el: HTMLDivElement): void {
+  check(): void {
+    let checked: HTMLInputElement = this.inputs.find(el => el.checked == true)!;
+    let fillInput: HTMLDivElement = checked.parentElement!.querySelector('[data-id="dz-radioInput"]')!;
+    
     this.removeCheckeds();
-
-    this.add(el.querySelector('[data-id="dz-radioInput"]')!);
-    el.querySelector<HTMLInputElement>('[data-id="dz-input"]')!.checked = true;
+    if (checked.disabled != true) 
+      this.add(fillInput);
   }
 
   removeCheckeds() {
-    for (const item of this.items) {
+    for (let item of this.items) {
       this.remove(item.querySelector('[data-id="dz-radioInput"]')!);
     }
-  }
-
-  check(item: HTMLDivElement): void {
-    let status: boolean = item.querySelector<HTMLInputElement>('[data-id="dz-input"]')!.checked;
-    let fillInput: HTMLDivElement | null = item.querySelector('[data-id="dz-radioInput"]')!;
-    
-    if (status)
-      this.add(fillInput);
-    else
-      this.remove(fillInput);
   }
 
   add(el: HTMLDivElement): void {
@@ -74,34 +69,22 @@ class Radio implements IRadio {
     el.classList.remove(this.toggleClass);
   }
 
-  checkForUser(): boolean {
-    if (!this.items.length) {
-      console.warn('All radio button components aren\'t founds');
-      return false;
-    }
+  checkForUser(): void {
+    if (!this.items.length)
+      throw new Error('All radio button components aren\'t founds');
 
-    let inputFlag: boolean = false;  // Flag for not found input element
-    let fillInputFlag: boolean = false;  // Flag for not found fill input element
-    for (const item of this.items) {
+    for (let item of this.items) {
       let name: string = `${item.dataset.name || '(undefined name)'} radio component`;
 
       let input: HTMLInputElement | null = item.querySelector('[data-id="dz-input"]');
-      if (!input) {
-        console.warn(`Input element in ${name} is not found!`);
-        inputFlag = true;
-      }
+      if (!input)
+        throw new Error(`Input element in ${name} is not found!`);
 
       let fillInput: HTMLDivElement | null = item.querySelector('[data-id="dz-radioInput"]');
-      if (!fillInput) {
-        console.warn(`Fill input element in ${name} is not found!`);
-        fillInputFlag = true;
-      }
+      if (!fillInput)
+        throw new Error(`Fill input element in ${name} is not found!`);
     }
 
-    if (inputFlag || fillInputFlag)
-      return false;
-
     console.info('All radio components are ready!');
-    return true;
   }
 }
