@@ -7,11 +7,29 @@ class Radio {
         this._inputs = this._findAll(this._items);
         this._handle();
     }
+    /**
+     * Set checked or disabled action
+     * for parent's input element
+     * @param {string} type - must be checked or disabled
+     * @param {string} querySelector - find query in document.querySelectorAll function
+     * @param {boolean} val
+     */
     action(type, querySelector, val = true) {
         document.querySelectorAll(querySelector).forEach(el => {
             el.querySelector('[data-id="dz-input"]')[type] = val;
         });
         this._check();
+    }
+    /**
+     * Event subscribe for input element into component
+     * @param querySelector - find query in document.querySelectorAll function
+     * @param event - any event name for input element
+     * @param callback - your callback
+     */
+    on(querySelector, event, callback) {
+        document.querySelectorAll(querySelector).forEach(el => {
+            el.querySelector('[data-id="dz-input"]').addEventListener(event, callback);
+        });
     }
     _handle() {
         try {

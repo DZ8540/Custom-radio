@@ -9,7 +9,8 @@ To use it, you just need to find all the elements you need, and then pass it to 
 4. Input maintains disabled attribute.
 5. Component maintains data-name attribute, for you can set component name.
 6. Attention!!! Radio buttons must have the same value in the name attribute in the input tag.
-7. Attention!!! Parent for input element must be an element with class "Radio"
+7. Attention!!! Parent for input element must be an element with class "Radio".
+8. Component maintains event subscribes with instance's 'on' method.
 
 ## Example
 

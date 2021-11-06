@@ -14,12 +14,31 @@ class Radio {
     this._handle();
   }
 
+  /**
+   * Set checked or disabled action
+   * for parent's input element
+   * @param {string} type - must be checked or disabled
+   * @param {string} querySelector - find query in document.querySelectorAll function
+   * @param {boolean} val
+   */
   public action(type: Actions, querySelector: string, val: boolean = true): void {
     document.querySelectorAll(querySelector).forEach(el => {
       el.querySelector<HTMLInputElement>('[data-id="dz-input"]')![type] = val;
     });
     
     this._check();
+  }
+
+  /**
+   * Event subscribe for input element into component
+   * @param querySelector - find query in document.querySelectorAll function
+   * @param event - any event name for input element
+   * @param callback - your callback
+   */
+  public on(querySelector: string, event: keyof HTMLElementEventMap, callback: EventListenerOrEventListenerObject): void {
+    document.querySelectorAll(querySelector).forEach(el => {
+      el.querySelector<HTMLInputElement>('[data-id="dz-input"]')!.addEventListener(event, callback);
+    });
   }
 
   protected _handle(): void {
