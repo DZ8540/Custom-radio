@@ -6,9 +6,10 @@ To use it, you just need to find all the elements you need, and then pass it to 
 1. Text value print in last span in the component.
 2. No id attribute required for input.
 3. Input maintains checked attribute.
-3. Input maintains disabled attribute.
-4. Attention!!! Radio buttons must have the same value in the name attribute in the input tag.
+4. Input maintains disabled attribute.
 5. Component maintains data-name attribute, for you can set component name.
+6. Attention!!! Radio buttons must have the same value in the name attribute in the input tag.
+7. Attention!!! Parent for input element must be an element with class "Radio"
 
 ## Example
 

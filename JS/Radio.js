@@ -2,51 +2,72 @@
 class Radio {
     constructor(items) {
         this.toggleClass = 'Radio__fill--active';
-        this.items = items;
-        this.inputs = this.findAll(this.items);
-        this.handle();
+        this.disabledClass = 'Radio--disabled';
+        this._items = items;
+        this._inputs = this._findAll(this._items);
+        this._handle();
     }
-    handle() {
+    action(type, querySelector, val = true) {
+        document.querySelectorAll(querySelector).forEach(el => {
+            el.querySelector('[data-id="dz-input"]')[type] = val;
+        });
+        this._check();
+    }
+    _handle() {
         try {
-            this.checkForUser();
-            this.check();
-            for (let item of this.inputs) {
-                item.onchange = this.check.bind(this);
+            this._checkForUser();
+            this._check();
+            for (let item of this._inputs) {
+                item.onchange = this._check.bind(this);
             }
         }
         catch (err) {
             console.warn(err.message);
         }
     }
-    findAll(parents) {
+    _findAll(parents) {
         let inputs = [];
         for (let item of parents) {
             inputs.push(item.querySelector('[data-id="dz-input"]'));
         }
         return inputs;
     }
-    check() {
-        let checked = this.inputs.find(el => el.checked == true);
-        let fillInput = checked.parentElement.querySelector('[data-id="dz-radioInput"]');
-        this.removeCheckeds();
-        if (checked.disabled != true)
-            this.add(fillInput);
+    _check() {
+        this._findAllDisabled();
+        this._removeCheckeds();
+        let checked = this._inputs.find(el => el.checked == true);
+        if (checked && checked.disabled != true)
+            this._add(checked.parentElement.querySelector('[data-id="dz-radioInput"]'));
     }
-    removeCheckeds() {
-        for (let item of this.items) {
-            this.remove(item.querySelector('[data-id="dz-radioInput"]'));
+    _removeCheckeds() {
+        for (let item of this._items) {
+            this._remove(item.querySelector('[data-id="dz-radioInput"]'));
         }
     }
-    add(el) {
+    _findAllDisabled() {
+        for (let item of this._inputs) {
+            if (item.disabled == true)
+                this._addDisable(item.parentElement);
+            else
+                this._removeDisable(item.parentElement);
+        }
+    }
+    _add(el) {
         el.classList.add(this.toggleClass);
     }
-    remove(el) {
+    _remove(el) {
         el.classList.remove(this.toggleClass);
     }
-    checkForUser() {
-        if (!this.items.length)
+    _addDisable(el) {
+        el.classList.add(this.disabledClass);
+    }
+    _removeDisable(el) {
+        el.classList.remove(this.disabledClass);
+    }
+    _checkForUser() {
+        if (!this._items.length)
             throw new Error('All radio button components aren\'t founds');
-        for (let item of this.items) {
+        for (let item of this._items) {
             let name = `${item.dataset.name || '(undefined name)'} radio component`;
             let input = item.querySelector('[data-id="dz-input"]');
             if (!input)

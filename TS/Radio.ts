@@ -1,42 +1,41 @@
-interface IRadio<T extends HTMLDivElement = HTMLDivElement> {
-  readonly toggleClass: string,
-  items: NodeListOf<T>,
-  inputs: HTMLInputElement[],
-  handle(): void,
-  findAll(parents: this['items']): this['inputs'],
-  removeCheckeds(): void,
-  remove(el: T): void,
-  add(el: T): void,
-  check(): void,
-  checkForUser(): void,
-}
+type Actions = 'checked' | 'disabled';
 
-class Radio implements IRadio {
-  readonly toggleClass: string = 'Radio__fill--active';
-  items: NodeListOf<HTMLDivElement>;
-  inputs: HTMLInputElement[];
+class Radio {
+  public readonly toggleClass: string = 'Radio__fill--active';
+  public readonly disabledClass: string = 'Radio--disabled';
+
+  protected _items: NodeListOf<HTMLDivElement>;
+  protected _inputs: HTMLInputElement[];
 
   constructor(items: NodeListOf<HTMLDivElement>) {
-    this.items = items;
-    this.inputs = this.findAll(this.items);
+    this._items = items;
+    this._inputs = this._findAll(this._items);
 
-    this.handle();
+    this._handle();
   }
 
-  handle(): void {
+  public action(type: Actions, querySelector: string, val: boolean = true): void {
+    document.querySelectorAll(querySelector).forEach(el => {
+      el.querySelector<HTMLInputElement>('[data-id="dz-input"]')![type] = val;
+    });
+    
+    this._check();
+  }
+
+  protected _handle(): void {
     try {
-      this.checkForUser();
+      this._checkForUser();
       
-      this.check();
-      for (let item of this.inputs) {
-        item.onchange = this.check.bind(this);
+      this._check();
+      for (let item of this._inputs) {
+        item.onchange = this._check.bind(this);
       }
     } catch (err: any | Error) {
       console.warn(err.message);
     }
   }
 
-  findAll(parents: NodeListOf<HTMLDivElement>): HTMLInputElement[] {
+  protected _findAll(parents: NodeListOf<HTMLDivElement>): HTMLInputElement[] {
     let inputs: HTMLInputElement[] = [];
 
     for (let item of parents) {
@@ -46,34 +45,51 @@ class Radio implements IRadio {
     return inputs;
   }
 
-  check(): void {
-    let checked: HTMLInputElement = this.inputs.find(el => el.checked == true)!;
-    let fillInput: HTMLDivElement = checked.parentElement!.querySelector('[data-id="dz-radioInput"]')!;
-    
-    this.removeCheckeds();
-    if (checked.disabled != true) 
-      this.add(fillInput);
+  protected _check(): void {
+    this._findAllDisabled();
+    this._removeCheckeds();
+
+    let checked: HTMLInputElement | undefined = this._inputs.find(el => el.checked == true);
+    if (checked && checked.disabled != true) 
+      this._add(checked.parentElement!.querySelector('[data-id="dz-radioInput"]')!);
   }
 
-  removeCheckeds() {
-    for (let item of this.items) {
-      this.remove(item.querySelector('[data-id="dz-radioInput"]')!);
+  protected _removeCheckeds(): void {
+    for (let item of this._items) {
+      this._remove(item.querySelector('[data-id="dz-radioInput"]')!);
     }
   }
 
-  add(el: HTMLDivElement): void {
+  protected _findAllDisabled(): void {
+    for (let item of this._inputs) {
+      if (item.disabled == true)
+        this._addDisable(item.parentElement as HTMLDivElement);
+      else
+        this._removeDisable(item.parentElement as HTMLDivElement);
+    }
+  }
+
+  protected _add(el: HTMLDivElement): void {
     el.classList.add(this.toggleClass);
   }
 
-  remove(el: HTMLDivElement): void {
+  protected _remove(el: HTMLDivElement): void {
     el.classList.remove(this.toggleClass);
   }
 
-  checkForUser(): void {
-    if (!this.items.length)
+  protected _addDisable(el: HTMLDivElement): void {
+    el.classList.add(this.disabledClass);
+  }
+
+  protected _removeDisable(el: HTMLDivElement): void {
+    el.classList.remove(this.disabledClass);
+  }
+
+  protected _checkForUser(): void {
+    if (!this._items.length)
       throw new Error('All radio button components aren\'t founds');
 
-    for (let item of this.items) {
+    for (let item of this._items) {
       let name: string = `${item.dataset.name || '(undefined name)'} radio component`;
 
       let input: HTMLInputElement | null = item.querySelector('[data-id="dz-input"]');
