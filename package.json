@@ -1,8 +1,13 @@
 {
-  "name": "custom-radio",
+  "name": "@dz8540/custom-radio",
   "version": "1.0.0",
-  "description": "To use it, you just need to find all the elements you need, and then pass it to the class.",
-  "main": "index.js",
+  "description": "DZ's custom radio component library.",
+  "main": "/Dist/JS/CustomRadio.min.js",
+  "types": "customRadio.d.ts",
+  "devDependencies": {
+    "sass": "^1.44.0",
+    "typescript": "^4.5.2"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,13 +15,13 @@
     "type": "git",
     "url": "git+https://github.com/DZ8540/Custom-radio.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "DZ",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/DZ8540/Custom-radio/issues"
   },
   "homepage": "https://github.com/DZ8540/Custom-radio#readme",
-  "devDependencies": {
-    "typescript": "^4.3.5"
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   }
 }

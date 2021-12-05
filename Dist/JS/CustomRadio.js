@@ -1,4 +1,6 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Radio = void 0;
 class Radio {
     constructor(items) {
         this.toggleClass = 'Radio__fill--active';
@@ -9,10 +11,11 @@ class Radio {
     }
     /**
      * Set checked or disabled action
-     * for parent's input element
-     * @param {string} type - must be checked or disabled
-     * @param {string} querySelector - find query in document.querySelectorAll function
-     * @param {boolean} val
+     * for parent's input element.
+     * @param {string} type - must be checked or disabled.
+     * @param {string} querySelector - find query in document.querySelectorAll function.
+     * @param {boolean} [val=true]
+     * @return {void}
      */
     action(type, querySelector, val = true) {
         document.querySelectorAll(querySelector).forEach(el => {
@@ -21,10 +24,11 @@ class Radio {
         this._check();
     }
     /**
-     * Event subscribe for input element into component
-     * @param querySelector - find query in document.querySelectorAll function
-     * @param event - any event name for input element
-     * @param callback - your callback
+     * Event subscribe for input element into component.
+     * @param {string} querySelector - find query in document querySelectorAll function.
+     * @param {keyof HTMLElementEventMap} event - any event name for input element.
+     * @param {EventListenerOrEventListenerObject} callback - your callback.
+     * @return {void}
      */
     on(querySelector, event, callback) {
         document.querySelectorAll(querySelector).forEach(el => {
@@ -97,3 +101,5 @@ class Radio {
         console.info('All radio components are ready!');
     }
 }
+exports.Radio = Radio;
+exports.default = Radio;

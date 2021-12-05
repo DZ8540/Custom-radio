@@ -1,6 +1,6 @@
 type Actions = 'checked' | 'disabled';
 
-class Radio {
+export class Radio {
   public readonly toggleClass: string = 'Radio__fill--active';
   public readonly disabledClass: string = 'Radio--disabled';
 
@@ -16,10 +16,11 @@ class Radio {
 
   /**
    * Set checked or disabled action
-   * for parent's input element
-   * @param {string} type - must be checked or disabled
-   * @param {string} querySelector - find query in document.querySelectorAll function
-   * @param {boolean} val
+   * for parent's input element.
+   * @param {string} type - must be checked or disabled.
+   * @param {string} querySelector - find query in document.querySelectorAll function.
+   * @param {boolean} [val=true]
+   * @return {void}
    */
   public action(type: Actions, querySelector: string, val: boolean = true): void {
     document.querySelectorAll(querySelector).forEach(el => {
@@ -30,10 +31,11 @@ class Radio {
   }
 
   /**
-   * Event subscribe for input element into component
-   * @param querySelector - find query in document.querySelectorAll function
-   * @param event - any event name for input element
-   * @param callback - your callback
+   * Event subscribe for input element into component.
+   * @param {string} querySelector - find query in document querySelectorAll function.
+   * @param {keyof HTMLElementEventMap} event - any event name for input element.
+   * @param {EventListenerOrEventListenerObject} callback - your callback.
+   * @return {void}
    */
   public on(querySelector: string, event: keyof HTMLElementEventMap, callback: EventListenerOrEventListenerObject): void {
     document.querySelectorAll(querySelector).forEach(el => {
@@ -123,3 +125,5 @@ class Radio {
     console.info('All radio components are ready!');
   }
 }
+
+export default Radio;

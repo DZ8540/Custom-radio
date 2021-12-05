@@ -1,3 +1,7 @@
+$darker: #242424
+$dark: #333
+$light: #fff
+
 .Radio 
   display: flex
   align-items: center
@@ -11,12 +15,10 @@
     height: 30px
     width: 30px
     border-radius: 50%
-    background-color: #333333
   &__fill
     display: block
     width: 0
     height: 0
-    background-color: #fff
     border-radius: 50%
     transition: .3s
     &--active
@@ -28,3 +30,19 @@
     font-family: sans-serif
   &--disabled
     opacity: .5
+  @media (prefers-color-scheme: light)
+    .Radio
+      &__fill
+        background-color: $light
+      &__radio
+        background-color: $dark
+      &__text
+        color: $dark
+  @media (prefers-color-scheme: dark)
+    .Radio
+      &__fill
+        background-color: $dark
+      &__radio
+        background-color: $light
+      &__text
+        color: $light
