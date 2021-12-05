@@ -5,7 +5,7 @@ To use it, you just need to find all the elements you need, and then pass it to 
 ## Installation
 1. Via npm
 ```cmd
-npm i @dz8540/customRadio
+npm i @dz8540/custom-radio
 ```
 2. Manually - all you need is in the "Dist" folder.
 ```html
