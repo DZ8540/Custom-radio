@@ -20,8 +20,5 @@
   "bugs": {
     "url": "https://github.com/DZ8540/Custom-radio/issues"
   },
-  "homepage": "https://github.com/DZ8540/Custom-radio#readme",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  }
+  "homepage": "https://github.com/DZ8540/Custom-radio#readme"
 }
